@@ -1,35 +1,510 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人简介</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人简介</title>
+<style>
+    /* ===== 内嵌个性化字体 ===== */
+    @font-face {
+        font-family: 'Smiley Sans';
+        src: url('./fonts/SmileySans-Oblique.subset.woff2') format('woff2');
+        font-weight: 100 900; font-style: normal; font-display: swap;
+    }
+    @font-face {
+        font-family: 'LXGW WenKai';
+        src: url('./fonts/LXGWWenKai-Regular.subset.woff2') format('woff2');
+        font-weight: 400; font-style: normal; font-display: swap;
+    }
+    .hero h1, .section-title, .stat-card .num, .tag, .award-date, .fab {
+        font-family: 'Smiley Sans', 'LXGW WenKai', "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    :root {
+        --bg: #f4f6fb;
+        --bg-card: rgba(255, 255, 255, .75);
+        --text: #1f2937;
+        --text-sub: #6b7280;
+        --primary: #6366f1;
+        --primary-2: #8b5cf6;
+        --accent: #ec4899;
+        --border: rgba(99, 102, 241, .15);
+        --shadow: 0 8px 30px rgba(31, 41, 55, .08);
+        --shadow-hover: 0 16px 40px rgba(99, 102, 241, .22);
+    }
+    html[data-theme="dark"] {
+        --bg: #0f172a;
+        --bg-card: rgba(30, 41, 59, .72);
+        --text: #e5e7eb;
+        --text-sub: #94a3b8;
+        --border: rgba(139, 92, 246, .28);
+        --shadow: 0 8px 30px rgba(0, 0, 0, .35);
+        --shadow-hover: 0 16px 40px rgba(139, 92, 246, .35);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'LXGW WenKai', "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        overflow-x: hidden;
+        transition: background .4s, color .4s;
+    }
+
+    /* ===== 流动极光背景 ===== */
+    .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    .blob {
+        position: absolute; border-radius: 50%;
+        filter: blur(90px); opacity: .36; will-change: transform;
+    }
+    .blob-1 { width: 42vmax; height: 42vmax; top: -14%; left: -12%; background: #818cf8; animation: drift-1 26s ease-in-out infinite alternate; }
+    .blob-2 { width: 36vmax; height: 36vmax; top: -8%; right: -10%; background: #f472b6; animation: drift-2 32s ease-in-out infinite alternate; }
+    .blob-3 { width: 32vmax; height: 32vmax; bottom: -14%; left: 6%; background: #34d399; opacity: .28; animation: drift-3 24s ease-in-out infinite alternate; }
+    .blob-4 { width: 28vmax; height: 28vmax; bottom: 2%; right: 4%; background: #8b5cf6; opacity: .3; animation: drift-4 29s ease-in-out infinite alternate; }
+    .blob-5 { width: 24vmax; height: 24vmax; top: 36%; left: 46%; background: #38bdf8; opacity: .24; animation: drift-5 36s ease-in-out infinite alternate; }
+    html[data-theme="dark"] .blob { opacity: .28; }
+    @keyframes drift-1 { from { transform: translate(0, 0) scale(1); } to { transform: translate(11vw, 9vh) scale(1.2); } }
+    @keyframes drift-2 { from { transform: translate(0, 0) scale(1.1); } to { transform: translate(-9vw, 10vh) scale(0.92); } }
+    @keyframes drift-3 { from { transform: translate(0, 0) scale(1); } to { transform: translate(10vw, -8vh) scale(1.18); } }
+    @keyframes drift-4 { from { transform: translate(0, 0) scale(1.05); } to { transform: translate(-8vw, -9vh) scale(1.2); } }
+    @keyframes drift-5 { from { transform: translate(0, 0) scale(1); } to { transform: translate(-12vw, 7vh) scale(1.25); } }
+
+    /* ===== 顶部滚动进度条 ===== */
+    #progress-bar {
+        position: fixed; top: 0; left: 0; height: 4px; width: 0;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        z-index: 1000; border-radius: 0 4px 4px 0;
+    }
+
+    .container { max-width: 880px; margin: 0 auto; padding: 0 22px 90px; }
+
+    /* ===== Hero ===== */
+    .hero { text-align: center; padding: 96px 0 56px; }
+    .avatar {
+        width: 118px; height: 118px; margin: 0 auto 22px;
+        border-radius: 50%; overflow: hidden;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        box-shadow: 0 0 0 6px var(--border), 0 14px 34px rgba(99, 102, 241, .35);
+        animation: pop-in .8s cubic-bezier(.2, 1.4, .4, 1) both;
+        transition: transform .35s;
+    }
+    .avatar:hover { transform: scale(1.08) rotate(3deg); }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    @keyframes pop-in {
+        from { transform: scale(0); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
+    }
+    .hero h1 {
+        font-size: 2.7rem; letter-spacing: 2px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+        animation: fade-up .8s .15s both;
+    }
+    .hero .subtitle { color: var(--text-sub); font-size: 1.05rem; margin-top: 6px; animation: fade-up .8s .3s both; }
+    .typing-line { margin-top: 18px; font-size: 1.12rem; min-height: 1.8em; animation: fade-up .8s .45s both; }
+    .typing-line .cursor {
+        display: inline-block; width: 2px; height: 1.1em; margin-left: 2px;
+        background: var(--primary); vertical-align: -2px;
+        animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero .contact-chip {
+        display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
+        padding: 9px 20px; border-radius: 999px; font-size: .95rem;
+        background: var(--bg-card); border: 1px solid var(--border);
+        backdrop-filter: blur(10px); box-shadow: var(--shadow);
+        cursor: pointer; transition: transform .25s, box-shadow .25s;
+        animation: fade-up .8s .6s both;
+    }
+    .hero .contact-chip:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    @keyframes fade-up {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== 滚动揭示 ===== */
+    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .8, .3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== 区块标题 ===== */
+    .section-title {
+        display: flex; align-items: center; gap: 12px;
+        font-size: 1.5rem; margin: 58px 0 26px;
+    }
+    .section-title .bar {
+        width: 6px; height: 26px; border-radius: 3px;
+        background: linear-gradient(180deg, var(--primary), var(--accent));
+    }
+
+    /* ===== 关于我：信息卡片 ===== */
+    .info-grid {
+        display: grid; gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+    .info-card {
+        display: flex; align-items: center; gap: 14px;
+        padding: 18px 20px; border-radius: 16px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        backdrop-filter: blur(10px); box-shadow: var(--shadow);
+        transition: transform .3s, box-shadow .3s;
+    }
+    .info-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: var(--shadow-hover); }
+    .info-card .icon {
+        flex: 0 0 46px; height: 46px; border-radius: 13px;
+        display: flex; align-items: center; justify-content: center; font-size: 22px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #fff; box-shadow: 0 6px 16px rgba(99, 102, 241, .35);
+    }
+    .info-card .label { font-size: .8rem; color: var(--text-sub); }
+    .info-card .value { font-weight: 600; font-size: .98rem; word-break: break-all; }
+
+    /* ===== 数据统计 ===== */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 18px; }
+    .stat-card {
+        text-align: center; padding: 22px 12px; border-radius: 16px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        backdrop-filter: blur(10px); box-shadow: var(--shadow);
+    }
+    .stat-card .num {
+        font-size: 2rem; font-weight: 800;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .stat-card .desc { color: var(--text-sub); font-size: .85rem; }
+
+    /* ===== 荣誉时间线 ===== */
+    .timeline { position: relative; padding-left: 30px; }
+    .timeline::before {
+        content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 3px;
+        border-radius: 3px;
+        background: linear-gradient(180deg, var(--primary), var(--accent));
+    }
+    .award-item { position: relative; margin-bottom: 18px; }
+    .award-item::before {
+        content: ""; position: absolute; left: -29px; top: 26px;
+        width: 13px; height: 13px; border-radius: 50%;
+        background: #fff; border: 4px solid var(--primary);
+        box-shadow: 0 0 0 4px var(--border);
+        transition: transform .3s, border-color .3s;
+    }
+    .award-item:hover::before { transform: scale(1.35); border-color: var(--accent); }
+    .award-card {
+        display: block; text-decoration: none; color: inherit;
+        padding: 18px 22px; border-radius: 16px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        backdrop-filter: blur(10px); box-shadow: var(--shadow);
+        transition: transform .3s, box-shadow .3s;
+    }
+    .award-card:hover { transform: translateX(8px); box-shadow: var(--shadow-hover); }
+    .award-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .award-date {
+        font-size: .8rem; font-weight: 700; color: var(--primary);
+        background: var(--border); padding: 2px 12px; border-radius: 999px;
+    }
+    .tag { font-size: .74rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; color: #fff; }
+    .tag-national { background: linear-gradient(90deg, #ef4444, #f59e0b); }
+    .tag-region   { background: linear-gradient(90deg, #0ea5e9, #6366f1); }
+    .tag-province { background: linear-gradient(90deg, #10b981, #14b8a6); }
+    .tag-school   { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+    .tag-college  { background: linear-gradient(90deg, #64748b, #94a3b8); }
+    .award-name { font-weight: 600; font-size: .99rem; display: flex; align-items: flex-start; gap: 8px; }
+    .award-name .medal { flex: 0 0 auto; }
+    .award-card .go {
+        float: right; color: var(--text-sub);
+        transition: transform .3s, color .3s;
+    }
+    .award-card:hover .go { transform: translateX(5px); color: var(--primary); }
+
+    /* ===== 项目卡片 ===== */
+    .project-card {
+        position: relative; overflow: hidden;
+        padding: 30px 28px; border-radius: 20px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        backdrop-filter: blur(10px); box-shadow: var(--shadow);
+        transition: transform .35s, box-shadow .35s;
+    }
+    .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .project-card::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .project-head { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .project-head .p-icon {
+        width: 52px; height: 52px; border-radius: 15px; font-size: 26px;
+        display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        box-shadow: 0 8px 18px rgba(236, 72, 153, .3);
+    }
+    .project-head h3 { font-size: 1.12rem; }
+    .project-card p { color: var(--text-sub); font-size: .93rem; }
+    .tech-tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .tech-tags span {
+        font-size: .78rem; padding: 3px 12px; border-radius: 999px;
+        border: 1px solid var(--border); color: var(--text-sub);
+        transition: all .25s;
+    }
+    .project-card:hover .tech-tags span { border-color: var(--primary); color: var(--primary); }
+
+    /* ===== 页脚 ===== */
+    footer { text-align: center; margin-top: 70px; color: var(--text-sub); font-size: .85rem; }
+
+    /* ===== 悬浮按钮 ===== */
+    .fab {
+        position: fixed; right: 26px; z-index: 900;
+        width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer;
+        font-size: 20px; color: #fff;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        box-shadow: 0 8px 22px rgba(99, 102, 241, .4);
+        transition: transform .3s, opacity .3s;
+    }
+    .fab:hover { transform: translateY(-4px) scale(1.06); }
+    #theme-toggle { bottom: 88px; }
+    #back-top { bottom: 26px; opacity: 0; pointer-events: none; }
+    #back-top.show { opacity: 1; pointer-events: auto; }
+
+    /* ===== Toast ===== */
+    #toast {
+        position: fixed; left: 50%; bottom: 36px; transform: translateX(-50%) translateY(20px);
+        padding: 10px 24px; border-radius: 999px; font-size: .9rem; color: #fff;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        box-shadow: var(--shadow-hover); opacity: 0; pointer-events: none;
+        transition: opacity .3s, transform .3s; z-index: 1100;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 560px) {
+        .hero { padding-top: 66px; }
+        .hero h1 { font-size: 2.1rem; }
+        .timeline { padding-left: 24px; }
+        .award-item::before { left: -23px; }
+        .fab { right: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; }
+        .reveal { opacity: 1; transform: none; }
+    }
+</style>
 </head>
 <body>
-    <h1>关于我</h1>
-    <ul>
-        <li>姓名：高翎翔</li>
-        <li>生日：2006.01.13</li>
-        <li>籍贯：广东汕头</li>
-        <li>联系方式：vesper_zx@qq.com</li>
-        <li>座右铭：且行且看，尽力而为</li>
-        <li>专业：人工智能技术应用</li>
-    </ul>
-    <h1>相关经历</h1>
-    <ul>
-        <li>2026.08.24&ensp;——&ensp;<a href="./awards/“中国软件杯”大学生软件设计大赛B1组全国总决赛二等奖.html">“中国软件杯”大学生软件设计大赛B1组全国总决赛二等奖</a></li>
-        <li>2026.07.28&ensp;——&ensp;<a href="./awards/“中国软件杯”大学生软件设计大赛B1组南部赛区一等奖.html">“中国软件杯”大学生软件设计大赛B1组南部赛区一等奖</a></li>
-        <li>2026.07.04&ensp;——&ensp;<a href="./awards/2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班优秀学员.html">2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班优秀学员</a></li>
-        <li>2026.06.03&ensp;——&ensp;<a href="./awards/2026年“AI+”科技节智能体创新应用大赛校赛优秀奖.html">2026年“AI+”科技节智能体创新应用大赛校赛优秀奖</a></li>
-        <li>2026.05.30&ensp;——&ensp;<a href="./awards/2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班微团课大赛三等奖.html">2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班微团课大赛三等奖</a></li>
-        <li>2026.05.26&ensp;——&ensp;<a href="./awards/2026(第二十一届)海峡两岸暨港澳地区大学生计算机创新作品赛广东省赛优秀奖.html">2026(第二十一届)海峡两岸暨港澳地区大学生计算机创新作品赛广东省赛优秀奖</a></li>
-        <li>2026.05.22&ensp;——&ensp;<a href="./awards/2026年“AI+”科技节数学建模竞赛校赛三等奖.html">2026年“AI+”科技节数学建模竞赛校赛三等奖</a></li>
-        <li>2026.05.08&ensp;——&ensp;<a href="./awards/第十七届蓝桥杯Java软件开发大学C组广东赛区三等奖.html">第十七届蓝桥杯Java软件开发大学C组广东赛区三等奖</a></li>
-        <li>2025.11.30&ensp;——&ensp;<a href="./awards/2025年计算机工程技术学院（人工智能学院）“先锋荣耀，敢战敢赢”电竞比赛一等奖.html">2025年计算机工程技术学院（人工智能学院）“先锋荣耀，敢战敢赢”电竞比赛一等奖</a></li>
-    </ul>
-    <h1>我的项目</h1>
-    <ul>
-        <li>基于大模型技术的软件实训教学结果检查评价与报表系统</li>
-    </ul>
+
+<div id="progress-bar"></div>
+<div class="aurora">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+</div>
+
+<div class="container">
+
+    <!-- ===== Hero ===== -->
+    <header class="hero">
+        <div class="avatar"><img src="./imgs/Profile.jpg" alt="高翎翔的头像"></div>
+        <h1>高翎翔</h1>
+        <p class="subtitle"><span>专业：人工智能技术应用</span><br><span>班级：25大模型应用产业学院班</span></p>
+        <p class="typing-line">✍️ <span id="typing-text"></span><span class="cursor"></span></p>
+        <div class="contact-chip" id="email-chip" title="点击复制邮箱">
+            📮 <span>vesper_zx@qq.com</span>&nbsp;📋
+        </div>
+    </header>
+
+    <!-- ===== 关于我 ===== -->
+    <section>
+        <h2 class="section-title reveal"><span class="bar"></span>关于我</h2>
+        <div class="info-grid">
+            <div class="info-card reveal"><div class="icon">👤</div><div><div class="label">姓名</div><div class="value">高翎翔</div></div></div>
+            <div class="info-card reveal"><div class="icon">🎂</div><div><div class="label">生日</div><div class="value">2006.01.13</div></div></div>
+            <div class="info-card reveal"><div class="icon">📍</div><div><div class="label">籍贯</div><div class="value">广东汕头</div></div></div>
+            <div class="info-card reveal"><div class="icon">📧</div><div><div class="label">联系方式</div><div class="value">vesper_zx@qq.com</div></div></div>
+            <div class="info-card reveal"><div class="icon">🌟</div><div><div class="label">座右铭</div><div class="value">且行且看，尽力而为</div></div></div>
+            <div class="info-card reveal"><div class="icon">🤖</div><div><div class="label">专业</div><div class="value">人工智能技术应用</div></div></div>
+        </div>
+        <div class="stats">
+            <div class="stat-card reveal"><div class="num" data-target="9">0</div><div class="desc">🏆 荣誉奖项</div></div>
+            <div class="stat-card reveal"><div class="num" data-target="1">0</div><div class="desc">🇨🇳 国家级奖项</div></div>
+            <div class="stat-card reveal"><div class="num" data-target="2">0</div><div class="desc">🥇 一等奖</div></div>
+            <div class="stat-card reveal"><div class="num" data-target="1">0</div><div class="desc">🚀 我的项目</div></div>
+        </div>
+    </section>
+
+    <!-- ===== 相关经历 ===== -->
+    <section>
+        <h2 class="section-title reveal"><span class="bar"></span>相关经历 <small style="font-size:.8rem;color:var(--text-sub);font-weight:400;">（点击查看证书）</small></h2>
+        <div class="timeline">
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/“中国软件杯”大学生软件设计大赛B1组全国总决赛二等奖.html">
+                    <div class="award-top"><span class="award-date">2026.08.24</span><span class="tag tag-national">国家级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🥈</span>“中国软件杯”大学生软件设计大赛B1组全国总决赛二等奖</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/“中国软件杯”大学生软件设计大赛B1组南部赛区一等奖.html">
+                    <div class="award-top"><span class="award-date">2026.07.28</span><span class="tag tag-region">赛区</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🥇</span>“中国软件杯”大学生软件设计大赛B1组南部赛区一等奖</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班优秀学员.html">
+                    <div class="award-top"><span class="award-date">2026.07.04</span><span class="tag tag-college">院级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🎖️</span>2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班优秀学员</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/2026年“AI+”科技节智能体创新应用大赛校赛优秀奖.html">
+                    <div class="award-top"><span class="award-date">2026.06.03</span><span class="tag tag-school">校级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🏅</span>2026年“AI+”科技节智能体创新应用大赛校赛优秀奖</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班微团课大赛三等奖.html">
+                    <div class="award-top"><span class="award-date">2026.05.30</span><span class="tag tag-college">院级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🥉</span>2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班微团课大赛三等奖</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/2026(第二十一届)海峡两岸暨港澳地区大学生计算机创新作品赛广东省赛优秀奖.html">
+                    <div class="award-top"><span class="award-date">2026.05.26</span><span class="tag tag-province">省级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🏅</span>2026(第二十一届)海峡两岸暨港澳地区大学生计算机创新作品赛广东省赛优秀奖</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/2026年“AI+”科技节数学建模竞赛校赛三等奖.html">
+                    <div class="award-top"><span class="award-date">2026.05.22</span><span class="tag tag-school">校级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🥉</span>2026年“AI+”科技节数学建模竞赛校赛三等奖</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/第十七届蓝桥杯Java软件开发大学C组广东赛区三等奖.html">
+                    <div class="award-top"><span class="award-date">2026.05.08</span><span class="tag tag-province">省级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🥉</span>第十七届蓝桥杯Java软件开发大学C组广东赛区三等奖</div>
+                </a>
+            </div>
+            <div class="award-item reveal">
+                <a class="award-card" href="./awards/2025年计算机工程技术学院（人工智能学院）“先锋荣耀，敢战敢赢”电竞比赛一等奖.html">
+                    <div class="award-top"><span class="award-date">2025.11.30</span><span class="tag tag-college">院级</span><span class="go">查看证书 ➜</span></div>
+                    <div class="award-name"><span class="medal">🥇</span>2025年计算机工程技术学院（人工智能学院）“先锋荣耀，敢战敢赢”电竞比赛一等奖</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 我的项目 ===== -->
+    <section>
+        <h2 class="section-title reveal"><span class="bar"></span>我的项目</h2>
+        <div class="project-card reveal">
+            <div class="project-head">
+                <h3>基于大模型技术的软件实训教学结果检查评价与报表系统</h3>
+            </div>
+            <p>💡 利用大语言模型自动检查与评价软件实训教学成果，智能生成多维度评价报表，为教学质检提效赋能。</p>
+            <div class="tech-tags">
+                <span>🦾 大语言模型</span><span>📊 智能评价</span><span>📑 报表生成</span><span>🎓 教学质检</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="reveal">© 2026 个人简介</footer>
+</div>
+
+<button class="fab" id="theme-toggle" title="切换明暗主题">🌙</button>
+<button class="fab" id="back-top" title="回到顶部">⬆️</button>
+<div id="toast">📋 邮箱已复制到剪贴板</div>
+
+<script>
+(function () {
+    /* ===== 明暗主题切换（记忆偏好） ===== */
+    var root = document.documentElement;
+    var themeBtn = document.getElementById('theme-toggle');
+    function applyTheme(t) {
+        root.setAttribute('data-theme', t);
+        themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+        try { localStorage.setItem('resume-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('resume-theme'); } catch (e) {}
+    applyTheme(saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    themeBtn.addEventListener('click', function () {
+        applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    /* ===== 打字机：座右铭 ===== */
+    var motto = '且行且看，尽力而为。';
+    var typingEl = document.getElementById('typing-text');
+    var ti = 0;
+    (function type() {
+        if (ti <= motto.length) {
+            typingEl.textContent = motto.slice(0, ti++);
+            setTimeout(type, 160);
+        }
+    })();
+
+    /* ===== 滚动进度条 + 回到顶部 ===== */
+    var progress = document.getElementById('progress-bar');
+    var backTop = document.getElementById('back-top');
+    window.addEventListener('scroll', function () {
+        var h = document.documentElement;
+        var pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+        progress.style.width = pct + '%';
+        backTop.classList.toggle('show', h.scrollTop > 350);
+    }, { passive: true });
+    backTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ===== 滚动揭示动画 ===== */
+    var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el, i) {
+        el.style.transitionDelay = (i % 6) * 70 + 'ms';
+        revealObserver.observe(el);
+    });
+
+    /* ===== 数字滚动 ===== */
+    var numObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            numObserver.unobserve(el);
+            var target = +el.getAttribute('data-target');
+            var start = null;
+            function step(ts) {
+                if (!start) start = ts;
+                var p = Math.min((ts - start) / 1200, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-card .num').forEach(function (el) { numObserver.observe(el); });
+
+    /* ===== 点击复制邮箱 + Toast ===== */
+    var toast = document.getElementById('toast');
+    document.getElementById('email-chip').addEventListener('click', function () {
+        var email = 'vesper_zx@qq.com';
+        function showToast() {
+            toast.classList.add('show');
+            setTimeout(function () { toast.classList.remove('show'); }, 1800);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(email).then(showToast).catch(showToast);
+        } else {
+            var ta = document.createElement('textarea');
+            ta.value = email;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta);
+            showToast();
+        }
+    });
+})();
+</script>
 </body>
 </html>
