@@ -16,7 +16,7 @@
         src: url('./fonts/LXGWWenKai-Regular.subset.woff2') format('woff2');
         font-weight: 400; font-style: normal; font-display: swap;
     }
-    .hero h1, .section-title, .stat-card .num, .tag, .award-date, .fab {
+    .hello h1, .section-title, .stat-card .num, .tag, .award-date, .fab {
         font-family: 'Smiley Sans', 'LXGW WenKai', "PingFang SC", "Microsoft YaHei", sans-serif;
     }
     :root {
@@ -69,6 +69,19 @@
     @keyframes drift-4 { from { transform: translate(0, 0) scale(1.05); } to { transform: translate(-8vw, -9vh) scale(1.2); } }
     @keyframes drift-5 { from { transform: translate(0, 0) scale(1); } to { transform: translate(-12vw, 7vh) scale(1.25); } }
 
+    /* ===== SVG 图标（内联，源文件在 icons/ 目录，Lucide ISC 许可） ===== */
+    svg.ic { display: inline-block; width: 1.1em; height: 1.1em; flex: 0 0 auto; vertical-align: -.16em; }
+    .info-card .icon .ic { width: 22px; height: 22px; vertical-align: 0; }
+    .medal .ic, .award-name .ic { width: 1.2em; height: 1.2em; vertical-align: -.2em; }
+    .medal-gold { color: #f59e0b; }
+    .medal-silver { color: #94a3b8; }
+    .medal-bronze { color: #b45309; }
+    .medal-green { color: #10b981; }
+    .medal-violet { color: #8b5cf6; }
+    #theme-toggle .ic-sun { display: none; }
+    html[data-theme="dark"] #theme-toggle .ic-moon { display: none; }
+    html[data-theme="dark"] #theme-toggle .ic-sun { display: inline-block; }
+
     /* ===== 顶部滚动进度条 ===== */
     #progress-bar {
         position: fixed; top: 0; left: 0; height: 4px; width: 0;
@@ -78,8 +91,8 @@
 
     .container { max-width: 880px; margin: 0 auto; padding: 0 22px 90px; }
 
-    /* ===== Hero ===== */
-    .hero { text-align: center; padding: 96px 0 56px; }
+    /* ===== Hello ===== */
+    .hello { text-align: center; padding: 96px 0 56px; }
     .avatar {
         width: 118px; height: 118px; margin: 0 auto 22px;
         border-radius: 50%; overflow: hidden;
@@ -94,13 +107,13 @@
         from { transform: scale(0); opacity: 0; }
         to   { transform: scale(1); opacity: 1; }
     }
-    .hero h1 {
+    .hello h1 {
         font-size: 2.7rem; letter-spacing: 2px;
         background: linear-gradient(90deg, var(--primary), var(--accent));
         -webkit-background-clip: text; background-clip: text; color: transparent;
         animation: fade-up .8s .15s both;
     }
-    .hero .subtitle { color: var(--text-sub); font-size: 1.05rem; margin-top: 6px; animation: fade-up .8s .3s both; }
+    .hello .subtitle { color: var(--text-sub); font-size: 1.05rem; margin-top: 6px; animation: fade-up .8s .3s both; }
     .typing-line { margin-top: 18px; font-size: 1.12rem; min-height: 1.8em; animation: fade-up .8s .45s both; }
     .typing-line .cursor {
         display: inline-block; width: 2px; height: 1.1em; margin-left: 2px;
@@ -108,7 +121,7 @@
         animation: blink 1s step-end infinite;
     }
     @keyframes blink { 50% { opacity: 0; } }
-    .hero .contact-chip {
+    .hello .contact-chip {
         display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
         padding: 9px 20px; border-radius: 999px; font-size: .95rem;
         background: var(--bg-card); border: 1px solid var(--border);
@@ -116,7 +129,7 @@
         cursor: pointer; transition: transform .25s, box-shadow .25s;
         animation: fade-up .8s .6s both;
     }
-    .hero .contact-chip:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .hello .contact-chip:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
     @keyframes fade-up {
         from { opacity: 0; transform: translateY(24px); }
         to   { opacity: 1; transform: translateY(0); }
@@ -129,7 +142,7 @@
     /* ===== 区块标题 ===== */
     .section-title {
         display: flex; align-items: center; gap: 12px;
-        font-size: 1.5rem; margin: 58px 0 26px;
+        font-size: 1.5rem; margin: 26px 0 26px;
     }
     .section-title .bar {
         width: 6px; height: 26px; border-radius: 3px;
@@ -157,20 +170,6 @@
     }
     .info-card .label { font-size: .8rem; color: var(--text-sub); }
     .info-card .value { font-weight: 600; font-size: .98rem; word-break: break-all; }
-
-    /* ===== 数据统计 ===== */
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 18px; }
-    .stat-card {
-        text-align: center; padding: 22px 12px; border-radius: 16px;
-        background: var(--bg-card); border: 1px solid var(--border);
-        backdrop-filter: blur(10px); box-shadow: var(--shadow);
-    }
-    .stat-card .num {
-        font-size: 2rem; font-weight: 800;
-        background: linear-gradient(90deg, var(--primary), var(--accent));
-        -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .stat-card .desc { color: var(--text-sub); font-size: .85rem; }
 
     /* ===== 荣誉时间线 ===== */
     .timeline { position: relative; padding-left: 30px; }
@@ -208,8 +207,9 @@
     .tag-school   { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
     .tag-college  { background: linear-gradient(90deg, #64748b, #94a3b8); }
     .award-name { font-weight: 600; font-size: .99rem; display: flex; align-items: flex-start; gap: 8px; }
-    .award-name .medal { flex: 0 0 auto; }
+    .award-name > .ic { flex: 0 0 auto; }
     .award-card .go {
+        display: inline-flex; align-items: center; gap: 4px;
         float: right; color: var(--text-sub);
         transition: transform .3s, color .3s;
     }
@@ -239,6 +239,7 @@
     .project-card p { color: var(--text-sub); font-size: .93rem; }
     .tech-tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
     .tech-tags span {
+        display: inline-flex; align-items: center; gap: 5px;
         font-size: .78rem; padding: 3px 12px; border-radius: 999px;
         border: 1px solid var(--border); color: var(--text-sub);
         transition: all .25s;
@@ -253,10 +254,12 @@
         position: fixed; right: 26px; z-index: 900;
         width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer;
         font-size: 20px; color: #fff;
+        display: flex; align-items: center; justify-content: center;
         background: linear-gradient(135deg, var(--primary), var(--primary-2));
         box-shadow: 0 8px 22px rgba(99, 102, 241, .4);
         transition: transform .3s, opacity .3s;
     }
+    .fab .ic { width: 22px; height: 22px; vertical-align: 0; }
     .fab:hover { transform: translateY(-4px) scale(1.06); }
     #theme-toggle { bottom: 88px; }
     #back-top { bottom: 26px; opacity: 0; pointer-events: none; }
@@ -269,6 +272,7 @@
         background: linear-gradient(90deg, var(--primary), var(--accent));
         box-shadow: var(--shadow-hover); opacity: 0; pointer-events: none;
         transition: opacity .3s, transform .3s; z-index: 1100;
+        display: flex; align-items: center; gap: 8px;
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -298,14 +302,58 @@
 
 <div class="container">
 
-    <!-- ===== Hero ===== -->
-    <header class="hero">
-        <div class="avatar"><img src="./imgs/Profile.jpg" alt="高翎翔的头像"></div>
+    <!-- ===== Hello ===== -->
+    <header class="hello">
+        <div class="avatar"><img src="./imgs/Profile.jpg" alt="头像"></div>
         <h1>高翎翔</h1>
-        <p class="subtitle"><span>专业：人工智能技术应用</span><br><span>班级：25大模型应用产业学院班</span></p>
-        <p class="typing-line">✍️ <span id="typing-text"></span><span class="cursor"></span></p>
+        <p class="subtitle">班级：25大模型应用产业学院班</p>
+        <p class="typing-line"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M13 21h8" />
+  <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+</svg> <span id="typing-text"></span><span class="cursor"></span></p>
         <div class="contact-chip" id="email-chip" title="点击复制邮箱">
-            📮 <span>vesper_zx@qq.com</span>&nbsp;📋
+            <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5C2 7 4 5 6.5 5H18c2.2 0 4 1.8 4 4v8Z" />
+  <polyline points="15,9 18,9 18,11" />
+  <path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2" />
+  <line x1="6" x2="7" y1="10" y2="10" />
+</svg> <span>vesper_zx@qq.com</span> <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg>
         </div>
     </header>
 
@@ -313,18 +361,156 @@
     <section>
         <h2 class="section-title reveal"><span class="bar"></span>关于我</h2>
         <div class="info-grid">
-            <div class="info-card reveal"><div class="icon">👤</div><div><div class="label">姓名</div><div class="value">高翎翔</div></div></div>
-            <div class="info-card reveal"><div class="icon">🎂</div><div><div class="label">生日</div><div class="value">2006.01.13</div></div></div>
-            <div class="info-card reveal"><div class="icon">📍</div><div><div class="label">籍贯</div><div class="value">广东汕头</div></div></div>
-            <div class="info-card reveal"><div class="icon">📧</div><div><div class="label">联系方式</div><div class="value">vesper_zx@qq.com</div></div></div>
-            <div class="info-card reveal"><div class="icon">🌟</div><div><div class="label">座右铭</div><div class="value">且行且看，尽力而为</div></div></div>
-            <div class="info-card reveal"><div class="icon">🤖</div><div><div class="label">专业</div><div class="value">人工智能技术应用</div></div></div>
-        </div>
-        <div class="stats">
-            <div class="stat-card reveal"><div class="num" data-target="9">0</div><div class="desc">🏆 荣誉奖项</div></div>
-            <div class="stat-card reveal"><div class="num" data-target="1">0</div><div class="desc">🇨🇳 国家级奖项</div></div>
-            <div class="stat-card reveal"><div class="num" data-target="2">0</div><div class="desc">🥇 一等奖</div></div>
-            <div class="stat-card reveal"><div class="num" data-target="1">0</div><div class="desc">🚀 我的项目</div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+  <circle cx="12" cy="7" r="4" />
+</svg></div><div><div class="label">姓名</div><div class="value">高翎翔</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="8" r="5" />
+  <path d="M20 21a8 8 0 0 0-16 0" />
+</svg></div><div><div class="label">性别</div><div class="value">男</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" />
+  <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1" />
+  <path d="M2 21h20" />
+  <path d="M7 8v3" />
+  <path d="M12 8v3" />
+  <path d="M17 8v3" />
+  <path d="M7 4h.01" />
+  <path d="M12 4h.01" />
+  <path d="M17 4h.01" />
+</svg></div><div><div class="label">生日</div><div class="value">2006.01.13</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+  <circle cx="12" cy="10" r="3" />
+</svg></div><div><div class="label">籍贯</div><div class="value">广东汕头</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+  <path d="M20 2v4" />
+  <path d="M22 4h-4" />
+  <circle cx="4" cy="20" r="2" />
+</svg></div><div><div class="label">座右铭</div><div class="value">且行且看，尽力而为</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+  <rect x="2" y="4" width="20" height="16" rx="2" />
+</svg></div><div><div class="label">联系方式</div><div class="value">vesper_zx@qq.com</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
+  <path d="M18 4.933V21" />
+  <path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" />
+  <path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" />
+  <path d="M6 4.933V21" />
+  <circle cx="12" cy="9" r="2" />
+</svg></div><div><div class="label">学校</div><div class="value">广东科学技术职业学院</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+  <path d="M22 10v6" />
+  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+</svg></div><div><div class="label">专业</div><div class="value">人工智能技术应用</div></div></div>
+            <div class="info-card reveal"><div class="icon"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9 18V5l12-2v13" />
+  <circle cx="6" cy="18" r="3" />
+  <circle cx="18" cy="16" r="3" />
+</svg></div><div><div class="label">兴趣爱好</div><div class="value">听音乐</div></div></div>
         </div>
     </section>
 
@@ -334,56 +520,310 @@
         <div class="timeline">
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/“中国软件杯”大学生软件设计大赛B1组全国总决赛二等奖.html">
-                    <div class="award-top"><span class="award-date">2026.08.24</span><span class="tag tag-national">国家级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🥈</span>“中国软件杯”大学生软件设计大赛B1组全国总决赛二等奖</div>
+                    <div class="award-top"><span class="award-date">2026.08.24</span><span class="tag tag-national">国家级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-silver"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" />
+  <path d="M11 12 5.12 2.2" />
+  <path d="m13 12 5.88-9.8" />
+  <path d="M8 7h8" />
+  <circle cx="12" cy="17" r="5" />
+  <path d="M12 18v-2h-.5" />
+</svg>“中国软件杯”大学生软件设计大赛B1组全国总决赛二等奖</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/“中国软件杯”大学生软件设计大赛B1组南部赛区一等奖.html">
-                    <div class="award-top"><span class="award-date">2026.07.28</span><span class="tag tag-region">赛区</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🥇</span>“中国软件杯”大学生软件设计大赛B1组南部赛区一等奖</div>
+                    <div class="award-top"><span class="award-date">2026.07.28</span><span class="tag tag-region">赛区</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-gold"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2" />
+  <path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2" />
+  <path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3" />
+  <path d="M4 22h16" />
+  <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
+  <path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3" />
+</svg>“中国软件杯”大学生软件设计大赛B1组南部赛区一等奖</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班优秀学员.html">
-                    <div class="award-top"><span class="award-date">2026.07.04</span><span class="tag tag-college">院级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🎖️</span>2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班优秀学员</div>
+                    <div class="award-top"><span class="award-date">2026.07.04</span><span class="tag tag-college">院级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-violet"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
+</svg>2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班优秀学员</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/2026年“AI+”科技节智能体创新应用大赛校赛优秀奖.html">
-                    <div class="award-top"><span class="award-date">2026.06.03</span><span class="tag tag-school">校级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🏅</span>2026年“AI+”科技节智能体创新应用大赛校赛优秀奖</div>
+                    <div class="award-top"><span class="award-date">2026.06.03</span><span class="tag tag-school">校级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-green"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+  <path d="m16 9-5.5 5.5L8 12" />
+</svg>2026年“AI+”科技节智能体创新应用大赛校赛优秀奖</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班微团课大赛三等奖.html">
-                    <div class="award-top"><span class="award-date">2026.05.30</span><span class="tag tag-college">院级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🥉</span>2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班微团课大赛三等奖</div>
+                    <div class="award-top"><span class="award-date">2026.05.30</span><span class="tag tag-college">院级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-bronze"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" />
+  <circle cx="12" cy="8" r="6" />
+</svg>2026年计算机工程技术学院（人工智能学院）青年马克思主义者培养工程培训班微团课大赛三等奖</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/2026(第二十一届)海峡两岸暨港澳地区大学生计算机创新作品赛广东省赛优秀奖.html">
-                    <div class="award-top"><span class="award-date">2026.05.26</span><span class="tag tag-province">省级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🏅</span>2026(第二十一届)海峡两岸暨港澳地区大学生计算机创新作品赛广东省赛优秀奖</div>
+                    <div class="award-top"><span class="award-date">2026.05.26</span><span class="tag tag-province">省级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-green"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+  <path d="m16 9-5.5 5.5L8 12" />
+</svg>2026(第二十一届)海峡两岸暨港澳地区大学生计算机创新作品赛广东省赛优秀奖</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/2026年“AI+”科技节数学建模竞赛校赛三等奖.html">
-                    <div class="award-top"><span class="award-date">2026.05.22</span><span class="tag tag-school">校级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🥉</span>2026年“AI+”科技节数学建模竞赛校赛三等奖</div>
+                    <div class="award-top"><span class="award-date">2026.05.22</span><span class="tag tag-school">校级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-bronze"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" />
+  <circle cx="12" cy="8" r="6" />
+</svg>2026年“AI+”科技节数学建模竞赛校赛三等奖</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/第十七届蓝桥杯Java软件开发大学C组广东赛区三等奖.html">
-                    <div class="award-top"><span class="award-date">2026.05.08</span><span class="tag tag-province">省级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🥉</span>第十七届蓝桥杯Java软件开发大学C组广东赛区三等奖</div>
+                    <div class="award-top"><span class="award-date">2026.05.08</span><span class="tag tag-province">省级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-bronze"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" />
+  <circle cx="12" cy="8" r="6" />
+</svg>第十七届蓝桥杯Java软件开发大学C组广东赛区三等奖</div>
                 </a>
             </div>
             <div class="award-item reveal">
                 <a class="award-card" href="./awards/2025年计算机工程技术学院（人工智能学院）“先锋荣耀，敢战敢赢”电竞比赛一等奖.html">
-                    <div class="award-top"><span class="award-date">2025.11.30</span><span class="tag tag-college">院级</span><span class="go">查看证书 ➜</span></div>
-                    <div class="award-name"><span class="medal">🥇</span>2025年计算机工程技术学院（人工智能学院）“先锋荣耀，敢战敢赢”电竞比赛一等奖</div>
+                    <div class="award-top"><span class="award-date">2025.11.30</span><span class="tag tag-college">院级</span><span class="go">查看证书 <svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg></span></div>
+                    <div class="award-name"><svg
+  class="ic medal-gold"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2" />
+  <path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2" />
+  <path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3" />
+  <path d="M4 22h16" />
+  <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
+  <path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3" />
+</svg>2025年计算机工程技术学院（人工智能学院）“先锋荣耀，敢战敢赢”电竞比赛一等奖</div>
                 </a>
             </div>
         </div>
@@ -396,9 +836,88 @@
             <div class="project-head">
                 <h3>基于大模型技术的软件实训教学结果检查评价与报表系统</h3>
             </div>
-            <p>💡 利用大语言模型自动检查与评价软件实训教学成果，智能生成多维度评价报表，为教学质检提效赋能。</p>
+            <p><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+  <path d="M9 18h6" />
+  <path d="M10 22h4" />
+</svg> 利用大语言模型自动检查与评价软件实训教学成果，智能生成多维度评价报表，为教学质检提效赋能。</p>
             <div class="tech-tags">
-                <span>🦾 大语言模型</span><span>📊 智能评价</span><span>📑 报表生成</span><span>🎓 教学质检</span>
+                <span><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 8V4H8" />
+  <rect width="16" height="12" x="4" y="8" rx="2" />
+  <path d="M2 14h2" />
+  <path d="M20 14h2" />
+  <path d="M15 13v2" />
+  <path d="M9 13v2" />
+</svg> 大语言模型</span><span><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z" />
+  <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+</svg> 智能评价</span><span><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg> 报表生成</span><span><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+  <path d="M22 10v6" />
+  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+</svg> 教学质检</span>
             </div>
         </div>
     </section>
@@ -406,9 +925,72 @@
     <footer class="reveal">© 2026 个人简介</footer>
 </div>
 
-<button class="fab" id="theme-toggle" title="切换明暗主题">🌙</button>
-<button class="fab" id="back-top" title="回到顶部">⬆️</button>
-<div id="toast">📋 邮箱已复制到剪贴板</div>
+<button class="fab" id="theme-toggle" title="切换明暗主题"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+</svg><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="4" />
+  <path d="M12 2v2" />
+  <path d="M12 20v2" />
+  <path d="m4.93 4.93 1.41 1.41" />
+  <path d="m17.66 17.66 1.41 1.41" />
+  <path d="M2 12h2" />
+  <path d="M20 12h2" />
+  <path d="m6.34 17.66-1.41 1.41" />
+  <path d="m19.07 4.93-1.41 1.41" />
+</svg></button>
+<button class="fab" id="back-top" title="回到顶部"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 12 7-7 7 7" />
+  <path d="M12 19V5" />
+</svg></button>
+<div id="toast"><svg
+  class="ic"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+  <path d="m9 14 2 2 4-4" />
+</svg> 邮箱已复制到剪贴板</div>
 
 <script>
 (function () {
@@ -417,7 +999,6 @@
     var themeBtn = document.getElementById('theme-toggle');
     function applyTheme(t) {
         root.setAttribute('data-theme', t);
-        themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
         try { localStorage.setItem('resume-theme', t); } catch (e) {}
     }
     var saved = null;
